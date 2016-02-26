@@ -63,7 +63,7 @@ public class XmlPlist {
         rootNode = parseXMLData(data, useSAXParser);
     }
 
-    public PlistNode getRootNode() {
+    public XmlPlistNode getRootNode() {
         return new XmlPlistNode(rootNode);
     }
 
