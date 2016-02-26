@@ -129,9 +129,17 @@ public class XMLText extends XMLElement {
     }
         
     protected void _printTree(PrintStream pw, int level) {
-	for(int i = 0; i < level; ++i)
-	    pw.print(" ");
-	pw.println(text.toString());
+        try {
+            BufferedReader r = new BufferedReader(getText());
+            String line;
+            while((line = r.readLine()) != null) {
+                for(int i = 0; i < level; ++i)
+                    pw.print(" ");
+                pw.println(line);
+            }
+        } catch(IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 
 //     public static void main(String[] args) {
