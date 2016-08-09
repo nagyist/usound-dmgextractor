@@ -35,8 +35,8 @@ class CEncryptedEncodingUtil {
             if(Util.toASCIIString(signatureBytes).equals(V2_SIGNATURE))
                 return 2;
         } catch(Exception e) {
-            System.err.println("Non-critical exception while detecting version 2" +
-                    " CEncryptedEncoding header:");
+            System.err.println("Non-critical exception while detecting " +
+                    "version 2 CEncryptedEncoding header:");
             e.printStackTrace();
         }
 
