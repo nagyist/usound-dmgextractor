@@ -35,20 +35,22 @@ class CEncryptedEncodingUtil {
             if(Util.toASCIIString(signatureBytes).equals(V2_SIGNATURE))
                 return 2;
         } catch(Exception e) {
-            System.err.println("Non-critical exception while detecting version 2" +
-                    " CEncryptedEncoding header:");
+            System.err.println("Non-critical exception while detecting " +
+                    "version 2 CEncryptedEncoding header:");
             e.printStackTrace();
         }
 
-        try {
-            stream.seek(stream.length()-signatureBytes.length);
-            stream.readFully(signatureBytes);
-            if(Util.toASCIIString(signatureBytes).equals(V1_SIGNATURE))
-                return 1;
-        } catch(Exception e) {
-            System.err.println("Non-critical exception while detecting version 1" +
-                    " CEncryptedEncoding header:");
-            e.printStackTrace();
+        if(stream.length() >= signatureBytes.length) {
+            try {
+                stream.seek(stream.length()-signatureBytes.length);
+                stream.readFully(signatureBytes);
+                if(Util.toASCIIString(signatureBytes).equals(V1_SIGNATURE))
+                    return 1;
+            } catch(Exception e) {
+                System.err.println("Non-critical exception while detecting " +
+                        "version 1 CEncryptedEncoding header:");
+                e.printStackTrace();
+            }
         }
 
         return -1;

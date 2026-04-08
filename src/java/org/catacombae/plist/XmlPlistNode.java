@@ -30,14 +30,14 @@ import org.catacombae.xml.XMLText;
 /**
  * @author <a href="http://www.catacombae.org/" target="_top">Erik Larsson</a>
  */
-public class XmlPlistNode extends PlistNode {
+public class XmlPlistNode extends PlistNode<XmlPlistNode> {
     private final XMLNode xmlNode;
 
     public XmlPlistNode(XMLNode xmlNode) {
         this.xmlNode = xmlNode;
     }
 
-    private XMLNode getXMLNode() {
+    public XMLNode getXMLNode() {
         return xmlNode;
     }
 
@@ -69,7 +69,7 @@ public class XmlPlistNode extends PlistNode {
         return keyList.toArray(new String[keyList.size()]);
     }
 
-    public PlistNode[] getChildren() {
+    public XmlPlistNode[] getChildren() {
         final LinkedList<PlistNode> children = new LinkedList<PlistNode>();
 
         if(xmlNode.qName.equals("dict")) {
@@ -104,7 +104,7 @@ public class XmlPlistNode extends PlistNode {
                     "non-dict/array type \"" + xmlNode.qName + "\".");
         }
 
-        return children.toArray(new PlistNode[children.size()]);
+        return children.toArray(new XmlPlistNode[children.size()]);
     }
 
     /**
@@ -115,7 +115,7 @@ public class XmlPlistNode extends PlistNode {
      * If you have more than one of the same type, tough luck. You only
      * get the first.
      */
-    public PlistNode cd(String type) {
+    public XmlPlistNode cd(String type) {
         for(XMLElement xn : xmlNode.getChildren()) {
             if(xn instanceof XMLNode && ((XMLNode)xn).qName.equals(type))
                 return new XmlPlistNode((XMLNode)xn);
@@ -131,11 +131,7 @@ public class XmlPlistNode extends PlistNode {
      * after the key node. Else it continues to search. If no match is
      * found, <code>null</code> is returned.
      */
-    public PlistNode cdkey(String key) {
-        return cdkeyXml(key);
-    }
-
-    private XmlPlistNode cdkeyXml(String key) {
+    public XmlPlistNode cdkey(String key) {
         boolean keyFound = false;
         for(XMLElement xn : xmlNode.getChildren()) {
             if(xn instanceof XMLNode) {
@@ -161,7 +157,7 @@ public class XmlPlistNode extends PlistNode {
 
     public Reader getKeyValue(String key) {
         //System.out.println("XMLNode.getKeyValue(\"" + key + "\")");
-        XmlPlistNode keyNode = cdkeyXml(key);
+        XmlPlistNode keyNode = cdkey(key);
         if(keyNode == null)
             return null;
 
