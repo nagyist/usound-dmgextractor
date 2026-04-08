@@ -20,7 +20,6 @@ package org.catacombae.dmg.sparseimage;
 import org.catacombae.io.BasicReadableRandomAccessStream;
 import org.catacombae.io.ReadableRandomAccessStream;
 import org.catacombae.io.RuntimeIOException;
-import org.catacombae.io.SynchronizedReadableRandomAccessStream;
 import org.catacombae.util.Util;
 
 /**
